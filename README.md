@@ -1,38 +1,47 @@
-# 🚀 Animated Developer Portfolio
+# 🚀 My Portfolio | Heshan Bandara
 
-A modern, responsive, and interactive personal portfolio website built using **HTML, CSS, and JavaScript**.
+### Modern • Animated • Responsive Developer Portfolio
 
-This portfolio showcases my development skills, projects, and experience through a clean dark-themed design, smooth animations, and interactive elements.
+Welcome to my personal developer portfolio! 👋
+
+I'm **Heshan Bandara**, a passionate developer who enjoys building modern, interactive, and user-friendly web applications.
+
+This portfolio showcases my projects, technical skills, and creativity through smooth animations, a futuristic dark theme, and a fully responsive design.
+
+## 🌐 Live Demo
+
+**[🚀 View My Live Portfolio](https://heshanbandara.github.io/My-Portfolio/)**
+
+*Note: The live demo will be accessible once GitHub Pages is successfully deployed.*
 
 ## ✨ Features
 
-- 🎨 Modern dark-themed user interface
-- ⚡ Smooth animations and transitions
-- ⌨️ Animated typing effect
-- 🌈 Gradient backgrounds and glowing effects
-- 🖱️ Interactive hover animations
-- 📱 Fully responsive design
-- 💼 Project showcase section
-- 🛠️ Skills and technologies section
-- 📩 Contact and social media links
-- 🚀 GitHub Pages deployment support
+- 🎨 Modern dark-themed interface
+- ⚡ Smooth scroll animations and transitions
+- ⌨️ Animated typing text effects
+- 🌈 Glowing buttons and gradient backgrounds
+- 🖱️ Interactive hover effects
+- 📱 Responsive layouts for mobile, tablet, and desktop
+- 💻 Developer skills showcase
+- 🚀 Interactive project cards
+- 📩 Contact and social links
+- 🌍 GitHub Pages deployment
 
-## 🛠️ Technologies Used
+## 🛠️ Tech Stack
 
 | Technology | Purpose |
 |---|---|
-| HTML5 | Website structure |
-| CSS3 | Styling, layouts, and animations |
+| HTML5 | Structure and content |
+| CSS3 | Styling and animations |
 | JavaScript | Interactive functionality |
 | Git | Version control |
-| GitHub | Source code hosting |
-| GitHub Pages | Website deployment |
+| GitHub | Repository hosting |
+| GitHub Pages | Website hosting |
 
-## 📂 Project Structure
+## 📁 Project Structure
 
 ```text
-animated-portfolio/
-│
+My-Portfolio/
 ├── index.html
 ├── style.css
 ├── script.js
@@ -42,59 +51,67 @@ animated-portfolio/
 
 ## 🚀 Getting Started
 
-**1. Clone the repository**
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/heshanbandara/animated-portfolio.git
+git clone https://github.com/heshanbandara/My-Portfolio.git
 ```
 
-**2. Open the project**
+### 2. Navigate to the project
 
 ```bash
-cd animated-portfolio
+cd My-Portfolio
 ```
 
-**3. Run the website**
+### 3. Run locally
 
-Open `index.html` in your browser or use the **Live Server** extension in VS Code.
+Open `index.html` directly in your browser, or use the **Live Server** extension in Visual Studio Code.
 
-## 🌐 Live Demo
+No additional dependencies or installation required.
 
-🔗 [View My Portfolio](https://heshanbandara.github.io/animated-portfolio/)
+## 🌍 Deploy with GitHub Pages
 
-*The live website will be available after GitHub Pages is enabled.*
+1. Open the [My-Portfolio repository](https://github.com/heshanbandara/My-Portfolio).
+2. Go to **Settings → Pages**.
+3. Under **Build and deployment**, select **Deploy from a branch**.
+4. Select branch `main`.
+5. Select folder `/ (root)`.
+6. Click **Save**.
+7. Check the **Actions** tab to confirm the deployment succeeds.
 
-## 📸 Preview
+Your website will be published at:
 
-Add a screenshot of your portfolio here to showcase its design.
+**https://heshanbandara.github.io/My-Portfolio/**
 
-## 📦 Deployment
+## 🔄 Updating the Website
 
-This portfolio can be hosted using GitHub Pages.
+After making changes locally in VS Code, run:
 
-1. Open the GitHub repository.
-2. Navigate to **Settings → Pages**.
-3. Select **Deploy from a branch**.
-4. Choose `main` and `/ (root)`.
-5. Save the configuration.
+```bash
+git add .
+git commit -m "Update portfolio"
+git push origin main
+```
 
-GitHub Pages will publish the website automatically.
+GitHub Pages will automatically redeploy your website after changes are pushed, provided deployment is configured correctly.
 
 ## 👨‍💻 About Me
 
-I'm **Heshan Bandara**, a developer passionate about building modern, user-friendly web applications.
+I'm **Heshan Bandara**, a developer interested in software engineering, web development, and creating engaging digital experiences.
 
-I enjoy exploring web technologies, creating interactive experiences, and continuously improving my software development skills.
+I enjoy solving problems, learning new technologies, and turning creative ideas into functional applications.
 
 ## 📬 Connect With Me
 
-- **GitHub:** [heshanbandara](https://github.com/heshanbandara)
-- **Portfolio:** [Animated Portfolio](https://heshanbandara.github.io/animated-portfolio/)
+- **GitHub:** [@heshanbandara](https://github.com/heshanbandara)
+- **Portfolio:** [My Portfolio](https://heshanbandara.github.io/My-Portfolio/)
 
 ## ⭐ Support
 
-If you find this project interesting, consider giving the repository a ⭐!
+If you like this portfolio, consider giving the repository a ⭐ on GitHub!
 
 ---
 
-**Made with ❤️ by Heshan Bandara**
+**Designed and developed with ❤️ by Heshan Bandara**
+
+© 2026 Heshan Bandara. All rights reserved.
