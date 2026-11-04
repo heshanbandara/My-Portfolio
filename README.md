@@ -1,12 +1,12 @@
 # 🚀 My Portfolio | Heshan Bandara
 
-### Modern • Animated • Responsive Developer Portfolio
+### Interactive • Animated • Responsive Portfolio
 
 Welcome to my personal developer portfolio! 👋
 
 I'm **Heshan**, an AI engineering student based in Sri Lanka with interests in artificial intelligence, machine learning, and cybersecurity. I build web applications, backend APIs, and Flutter mobile applications, and create engaging videos.
 
-This portfolio showcases my projects, technical skills, and creativity through smooth animations, a futuristic dark theme, and a fully responsive design.
+This portfolio showcases my projects, technical skills, and creativity with a charcoal and lime visual design, a responsive editorial layout, and interactive motion.
 
 ## 🌐 Live Demo
 
@@ -16,16 +16,16 @@ This portfolio showcases my projects, technical skills, and creativity through s
 
 ## ✨ Features
 
-- 🎨 Modern dark-themed interface
-- ⚡ Smooth scroll animations and transitions
-- ⌨️ Animated typing text effects
-- 🌈 Glowing buttons and gradient backgrounds
-- 🖱️ Interactive hover effects
-- 📱 Responsive layouts for mobile, tablet, and desktop
-- 💻 Developer skills showcase
-- 🚀 Interactive project cards
-- 📩 Contact and social links
-- 🌍 GitHub Pages deployment
+- Interactive canvas with AI, mobile, and creative visual modes
+- Scroll reveals, moving typography, and animated project illustrations
+- Filterable projects with accessible detail dialogs
+- Expandable skills and learning sections
+- Quick navigation: Ctrl/Cmd + K or `/`
+- Motion pause control and device reduced-motion support
+- Responsive mobile menu and layouts
+- Copyable GitHub profile link
+- Canvas animation pauses offscreen and in background tabs
+- No build step; hosted with GitHub Pages
 
 ## 🛠️ Tech Stack
 
