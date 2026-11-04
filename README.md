@@ -4,7 +4,7 @@
 
 Welcome to my personal developer portfolio! 👋
 
-I'm **Heshan Bandara**, a passionate developer who enjoys building modern, interactive, and user-friendly web applications.
+I'm **Heshan**, an AI engineering student based in Sri Lanka with interests in artificial intelligence, machine learning, and cybersecurity. I build web applications, backend APIs, and Flutter mobile applications, and create engaging videos.
 
 This portfolio showcases my projects, technical skills, and creativity through smooth animations, a futuristic dark theme, and a fully responsive design.
 
@@ -97,9 +97,14 @@ GitHub Pages will automatically redeploy your website after changes are pushed, 
 
 ## 👨‍💻 About Me
 
-I'm **Heshan Bandara**, a developer interested in software engineering, web development, and creating engaging digital experiences.
+I'm **Heshan**, an AI engineering student interested in artificial intelligence, machine learning, cybersecurity, and secure application design.
 
-I enjoy solving problems, learning new technologies, and turning creative ideas into functional applications.
+- **Development:** Python, FastAPI, Angular, PostgreSQL, SQLAlchemy, Flutter, and Dart.
+- **Currently learning:** LLMs, RAG, LangChain, LangGraph, and backend development.
+- **Creative skills:** Short-form video editing, pacing, transitions, captions, and visual storytelling.
+- **Projects:** MediLink (campus healthcare application), BookHive, and AI learning projects.
+
+Profile content is based on my [GitHub profile README](https://github.com/heshanbandara/heshanbandara).
 
 ## 📬 Connect With Me
 
