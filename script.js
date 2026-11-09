@@ -90,7 +90,7 @@
     $$('.project').forEach(project => {
       const visible = filter === 'all' || project.dataset.category === filter;
       project.hidden = !visible;
-      if (visible) { count++; project.classList.add('visible'); }
+      if (visible) { count++; project.classList.add('visible'); if (!paused && typeof project.animate === 'function') project.animate([{opacity:0,translate:'0 14px'},{opacity:1,translate:'0 0'}],{duration:350,easing:'ease-out'}); }
     });
     $('#filter-status').textContent = `${count} project${count === 1 ? '' : 's'} shown.`;
   }));
@@ -243,5 +243,11 @@
     stage.style.setProperty('--stage-y', `${pointer.x * 5}deg`); stage.style.setProperty('--stage-x', `${-pointer.y * 5}deg`);
   }, { passive: true });
   stage.addEventListener('pointerleave', () => { pointer = { x: 0, y: 0 }; stage.style.setProperty('--stage-y', '0deg'); stage.style.setProperty('--stage-x', '0deg'); });
+  $('.project-preview').forEach(card => card.addEventListener('pointermove', event => {
+    if (paused || event.pointerType !== 'mouse') return;
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--spot-x', (event.clientX - rect.left) + 'px');
+    card.style.setProperty('--spot-y', (event.clientY - rect.top) + 'px');
+  }, {passive:true}));
   sizeCanvas(); setMotion();
 })();
