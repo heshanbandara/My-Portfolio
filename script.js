@@ -1,3 +1,118 @@
+// Independent, dependency-free GitHub activity dashboard.
+async function initGitHubActivity() {
+  const svg = document.getElementById('githubRadar');
+  const stats = document.getElementById('activity-stats');
+  const total = document.getElementById('activity-total');
+  const updated = document.getElementById('activity-updated');
+  if (!svg || !stats || !total || !updated) return;
+  const labels = ['Code Reviews', 'Issues', 'Pull Requests', 'Commits'];
+  const keys = ['reviews', 'issues', 'pullRequests', 'commits'];
+  const urls = [
+    'https://raw.githubusercontent.com/heshanbandara/My-Portfolio/main/activity.json',
+    new URL('./activity.json', document.baseURI).href
+  ];
+  let data;
+  for (const url of urls) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
+    try {
+      const response = await fetch(url, {cache: 'no-store', signal: controller.signal});
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const candidate = await response.json();
+      if (!keys.every(key => Number.isFinite(candidate[key]) && candidate[key] >= 0)) throw new Error('Invalid activity data');
+      data = candidate;
+      break;
+    } catch (error) {
+      console.warn('Activity source unavailable:', url, error);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  if (!data) {
+    total.textContent = 'GitHub activity is temporarily unavailable.';
+    updated.textContent = 'Visit GitHub for the latest contributions.';
+    return;
+  }
+  const values = keys.map(key => data[key]);
+  const sum = values.reduce((a,b) => a+b, 0);
+  const percentages = values.map(value => sum ? Math.round(value / sum * 100) : 0);
+  total.textContent = sum + ' tracked contributions';
+  const date = new Date(data.updatedAt);
+  updated.textContent = 'Last 12 months' + (Number.isFinite(date.getTime()) ? ' · Updated: ' + date.toLocaleDateString() : '');
+  stats.replaceChildren();
+  const counters = labels.map((label,i) => {
+    const row = document.createElement('div');
+    row.className = 'activity-stat';
+    const name = document.createElement('span');
+    name.textContent = label;
+    const count = document.createElement('strong');
+    count.title = values[i] + ' contributions';
+    count.textContent = percentages[i] + '%';
+    row.append(name,count);
+    stats.append(row);
+    return count;
+  });
+  const ns = 'http://www.w3.org/2000/svg';
+  function element(tag, attrs, content, parent = svg) {
+    const node = document.createElementNS(ns,tag);
+    Object.entries(attrs).forEach(([key,value]) => node.setAttribute(key,String(value)));
+    if (content != null) node.textContent = content;
+    parent.append(node);
+    return node;
+  }
+  svg.replaceChildren();
+  svg.setAttribute('aria-label', labels.map((label,i) => label + ': ' + percentages[i] + '%').join(', '));
+  const point = (i, value) => {
+    const angle = i * Math.PI / 2 - Math.PI / 2;
+    return [210 + Math.cos(angle)*125*value/100, 180 + Math.sin(angle)*125*value/100];
+  };
+  const points = values => values.map((v,i) => point(i,v).join(',')).join(' ');
+  [25,50,75,100].forEach(level => element('polygon',{points:points([level,level,level,level]),fill:'none',stroke:'#34382c'}));
+  labels.forEach((label,i) => {
+    const [x,y] = point(i,100);
+    element('line',{x1:210,y1:180,x2:x,y2:y,stroke:'#34382c'});
+    const [lx,ly] = point(i,112);
+    element('text',{x:lx,y:ly+(i===0?-7:i===2?14:4),'text-anchor':'middle',fill:'#c4c9bb','font-size':12},label);
+  });
+  const polygon = element('polygon',{points:points(percentages),fill:'#d8fa7630',stroke:'#d8fa76','stroke-width':2.5,'stroke-linejoin':'round'});
+  const dots = percentages.map((value,i) => {
+    const [cx,cy] = point(i,value);
+    const dot = element('circle',{cx,cy,r:4,fill:'#d8fa76',stroke:'#fff','stroke-width':1});
+    element('title',{},labels[i]+': '+value+'% ('+values[i]+' contributions)',dot);
+    return dot;
+  });
+  const paused = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('motion-paused');
+  function animate() {
+    if (paused()) return;
+    const start = performance.now();
+    function frame(now) {
+      const progress = paused() ? 1 : Math.min((now-start)/1100,1);
+      const eased = 1-Math.pow(1-progress,3);
+      const current = percentages.map(value => value*eased);
+      polygon.setAttribute('points',points(current));
+      dots.forEach((dot,i) => {
+        const [cx,cy] = point(i,current[i]);
+        dot.setAttribute('cx',cx);
+        dot.setAttribute('cy',cy);
+        counters[i].textContent = Math.round(current[i])+'%';
+      });
+      if (progress<1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) { observer.disconnect(); animate(); }
+    });
+    observer.observe(svg);
+  } else animate();
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initGitHubActivity, {once:true});
+} else {
+  initGitHubActivity();
+}
+
 (() => {
   'use strict';
   const $ = (selector) => document.querySelector(selector);
@@ -251,202 +366,3 @@
   }, {passive:true}));
   sizeCanvas(); setMotion();
 })();
-
-async function initGitHubActivity() {
-  const canvas = document.getElementById("githubRadar");
-  const stats = document.getElementById("activity-stats");
-  const total = document.getElementById("activity-total");
-  const updated = document.getElementById("activity-updated");
-
-  if (!canvas || !stats || !total || !updated) return;
-
-  try {
-    const response = await fetch("./activity.json", {
-      cache: "no-cache"
-    });
-
-    if (!response.ok) {
-      throw new Error("Activity data unavailable");
-    }
-
-    const data = await response.json();
-
-    const labels = [
-      "Code Reviews",
-      "Issues",
-      "Pull Requests",
-      "Commits"
-    ];
-
-    const values = [
-      data.reviews,
-      data.issues,
-      data.pullRequests,
-      data.commits
-    ];
-
-    if (!values.every(v =>
-      Number.isFinite(v) && v >= 0
-    )) {
-      throw new Error("Invalid activity data");
-    }
-
-    const sum = values.reduce((a, b) => a + b, 0);
-
-    const percentages = values.map(value =>
-      sum ? Math.round(value / sum * 100) : 0
-    );
-
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    const duration = reducedMotion || document.documentElement.classList.contains("motion-paused") ? 0 : 1800;
-
-    total.textContent = `${sum} tracked contributions`;
-
-    updated.textContent =
-      "Last 12 months · Updated: " +
-      new Date(data.updatedAt).toLocaleDateString();
-
-    stats.innerHTML = "";
-
-    labels.forEach((label, i) => {
-      const row = document.createElement("div");
-      row.className = "activity-stat";
-
-      const name = document.createElement("span");
-      name.textContent = label;
-
-      const count = document.createElement("strong");
-      count.dataset.value = percentages[i];
-      count.textContent = "0%";
-
-      row.append(name, count);
-      stats.append(row);
-    });
-
-    function animateCounters() {
-      const start = performance.now();
-
-      function frame(now) {
-        const progress = duration && !document.documentElement.classList.contains("motion-paused")
-          ? Math.min((now - start) / duration, 1)
-          : 1;
-
-        const eased = 1 - Math.pow(1 - progress, 3);
-
-        stats.querySelectorAll("[data-value]")
-          .forEach(element => {
-            const value = Number(element.dataset.value);
-            element.textContent =
-              Math.round(value * eased) + "%";
-          });
-
-        if (progress < 1) requestAnimationFrame(frame);
-      }
-
-      requestAnimationFrame(frame);
-    }
-
-    function renderChart() {
-      if (typeof Chart === "undefined") { canvas.hidden = true; return; }
-
-      const chart = new Chart(canvas, {
-        type: "radar",
-
-        data: {
-          labels,
-          datasets: [{
-            label: "GitHub Activity (%)",
-            data: [0, 0, 0, 0],
-            backgroundColor: "rgba(216,250,118,0.18)",
-            borderColor: "#d8fa76",
-            borderWidth: 2,
-            pointBackgroundColor: "#d8fa76",
-            pointBorderColor: "#ffffff",
-            pointRadius: 5,
-            pointHoverRadius: 9
-          }]
-        },
-
-        options: {
-          responsive: true,
-
-          animation: {
-            duration: document.documentElement.classList.contains("motion-paused") ? 0 : duration,
-            easing: "easeOutQuart"
-          },
-
-          scales: {
-            r: {
-              min: 0,
-              max: 100,
-
-              grid: {
-                color: "#34382c"
-              },
-
-              angleLines: {
-                color: "#34382c"
-              },
-
-              ticks: {
-                display: false,
-                stepSize: 25
-              },
-
-              pointLabels: {
-                color: "#c4c9bb",
-                font: {
-                  size: 12
-                }
-              }
-            }
-          },
-
-          plugins: {
-            legend: {
-              display: false
-            },
-
-            tooltip: {
-              callbacks: {
-                label: context =>
-                  `${context.raw}% (${values[context.dataIndex]} contributions)`
-              }
-            }
-          }
-        }
-      });
-
-      chart.data.datasets[0].data = percentages;
-      chart.update();
-      new MutationObserver(() => {
-        if (document.documentElement.classList.contains("motion-paused")) { chart.stop(); chart.update("none"); }
-      }).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-    }
-
-    if (!("IntersectionObserver" in window)) { animateCounters(); renderChart(); return; }
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        animateCounters();
-        renderChart();
-        observer.disconnect();
-      }
-    }, { threshold: 0.15 });
-
-    observer.observe(
-      document.querySelector(".activity-dashboard")
-    );
-
-  } catch (error) {
-    console.error(error);
-    total.textContent = "GitHub activity is currently unavailable.";
-  }
-}
-
-document.addEventListener(
-  "DOMContentLoaded",
-  initGitHubActivity
-);
