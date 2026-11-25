@@ -243,7 +243,7 @@
     stage.style.setProperty('--stage-y', `${pointer.x * 5}deg`); stage.style.setProperty('--stage-x', `${-pointer.y * 5}deg`);
   }, { passive: true });
   stage.addEventListener('pointerleave', () => { pointer = { x: 0, y: 0 }; stage.style.setProperty('--stage-y', '0deg'); stage.style.setProperty('--stage-x', '0deg'); });
-  $('.project-preview').forEach(card => card.addEventListener('pointermove', event => {
+  $$('.project-preview').forEach(card => card.addEventListener('pointermove', event => {
     if (paused || event.pointerType !== 'mouse') return;
     const rect = card.getBoundingClientRect();
     card.style.setProperty('--spot-x', (event.clientX - rect.left) + 'px');
