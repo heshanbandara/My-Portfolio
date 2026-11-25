@@ -251,3 +251,202 @@
   }, {passive:true}));
   sizeCanvas(); setMotion();
 })();
+
+async function initGitHubActivity() {
+  const canvas = document.getElementById("githubRadar");
+  const stats = document.getElementById("activity-stats");
+  const total = document.getElementById("activity-total");
+  const updated = document.getElementById("activity-updated");
+
+  if (!canvas || !stats || !total || !updated) return;
+
+  try {
+    const response = await fetch("./activity.json", {
+      cache: "no-cache"
+    });
+
+    if (!response.ok) {
+      throw new Error("Activity data unavailable");
+    }
+
+    const data = await response.json();
+
+    const labels = [
+      "Code Reviews",
+      "Issues",
+      "Pull Requests",
+      "Commits"
+    ];
+
+    const values = [
+      data.reviews,
+      data.issues,
+      data.pullRequests,
+      data.commits
+    ];
+
+    if (!values.every(v =>
+      Number.isFinite(v) && v >= 0
+    )) {
+      throw new Error("Invalid activity data");
+    }
+
+    const sum = values.reduce((a, b) => a + b, 0);
+
+    const percentages = values.map(value =>
+      sum ? Math.round(value / sum * 100) : 0
+    );
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const duration = reducedMotion || document.documentElement.classList.contains("motion-paused") ? 0 : 1800;
+
+    total.textContent = `${sum} tracked contributions`;
+
+    updated.textContent =
+      "Last 12 months · Updated: " +
+      new Date(data.updatedAt).toLocaleDateString();
+
+    stats.innerHTML = "";
+
+    labels.forEach((label, i) => {
+      const row = document.createElement("div");
+      row.className = "activity-stat";
+
+      const name = document.createElement("span");
+      name.textContent = label;
+
+      const count = document.createElement("strong");
+      count.dataset.value = percentages[i];
+      count.textContent = "0%";
+
+      row.append(name, count);
+      stats.append(row);
+    });
+
+    function animateCounters() {
+      const start = performance.now();
+
+      function frame(now) {
+        const progress = duration && !document.documentElement.classList.contains("motion-paused")
+          ? Math.min((now - start) / duration, 1)
+          : 1;
+
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        stats.querySelectorAll("[data-value]")
+          .forEach(element => {
+            const value = Number(element.dataset.value);
+            element.textContent =
+              Math.round(value * eased) + "%";
+          });
+
+        if (progress < 1) requestAnimationFrame(frame);
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    function renderChart() {
+      if (typeof Chart === "undefined") { canvas.hidden = true; return; }
+
+      const chart = new Chart(canvas, {
+        type: "radar",
+
+        data: {
+          labels,
+          datasets: [{
+            label: "GitHub Activity (%)",
+            data: [0, 0, 0, 0],
+            backgroundColor: "rgba(216,250,118,0.18)",
+            borderColor: "#d8fa76",
+            borderWidth: 2,
+            pointBackgroundColor: "#d8fa76",
+            pointBorderColor: "#ffffff",
+            pointRadius: 5,
+            pointHoverRadius: 9
+          }]
+        },
+
+        options: {
+          responsive: true,
+
+          animation: {
+            duration: document.documentElement.classList.contains("motion-paused") ? 0 : duration,
+            easing: "easeOutQuart"
+          },
+
+          scales: {
+            r: {
+              min: 0,
+              max: 100,
+
+              grid: {
+                color: "#34382c"
+              },
+
+              angleLines: {
+                color: "#34382c"
+              },
+
+              ticks: {
+                display: false,
+                stepSize: 25
+              },
+
+              pointLabels: {
+                color: "#c4c9bb",
+                font: {
+                  size: 12
+                }
+              }
+            }
+          },
+
+          plugins: {
+            legend: {
+              display: false
+            },
+
+            tooltip: {
+              callbacks: {
+                label: context =>
+                  `${context.raw}% (${values[context.dataIndex]} contributions)`
+              }
+            }
+          }
+        }
+      });
+
+      chart.data.datasets[0].data = percentages;
+      chart.update();
+      new MutationObserver(() => {
+        if (document.documentElement.classList.contains("motion-paused")) { chart.stop(); chart.update("none"); }
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    }
+
+    if (!("IntersectionObserver" in window)) { animateCounters(); renderChart(); return; }
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        animateCounters();
+        renderChart();
+        observer.disconnect();
+      }
+    }, { threshold: 0.15 });
+
+    observer.observe(
+      document.querySelector(".activity-dashboard")
+    );
+
+  } catch (error) {
+    console.error(error);
+    total.textContent = "GitHub activity is currently unavailable.";
+  }
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  initGitHubActivity
+);

@@ -6,8 +6,12 @@
   <meta name="theme-color" content="#111210">
   <meta name="description" content="Heshan — AI engineering student in Sri Lanka. Exploring artificial intelligence and cybersecurity, building web and Flutter applications, and telling stories through video.">
   <title>Heshan — Curious mind. Creative builder.</title>
-  <link rel="stylesheet" href="style.css?v=20261109">
-  <script src="script.js?v=20261109" defer></script>
+  <link rel="stylesheet" href="style.css?v=20261125">
+  <script
+  src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"
+  defer>
+</script>
+  <script src="script.js?v=20261125" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -15,14 +19,14 @@
   <header class="site-header">
     <a class="wordmark" href="#home" aria-label="Heshan, home">heshan<span>✳</span></a>
     <nav class="desktop-nav" aria-label="Main navigation">
-      <a href="#about">About</a><a href="#work">Selected work <span>03</span></a><a href="#skills">Toolkit</a>
+      <a href="#about">About</a><a href="#work">Selected work <span>03</span></a><a href="#activity">Activity</a><a href="#skills">Toolkit</a>
     </nav>
     <div class="header-actions">
       <button class="command-trigger" aria-label="Open quick navigation"><span>Quick jump</span><kbd>⌘ K</kbd></button>
       <a class="contact-link" href="#contact">Let’s connect <span>↗</span></a>
       <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
     </div>
-    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="#about">About</a><a href="#work">Selected work</a><a href="#skills">Toolkit</a><a href="#contact">Connect</a></nav>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="#about">About</a><a href="#work">Selected work</a><a href="#activity">Activity</a><a href="#skills">Toolkit</a><a href="#contact">Connect</a></nav>
   </header>
   <main id="main">
     <section id="home" class="hero shell">
@@ -75,6 +79,46 @@
       </div>
       <a class="all-work-link reveal" href="https://github.com/heshanbandara?tab=repositories" target="_blank" rel="noopener noreferrer"><span>There’s more in the making.</span> Explore my GitHub <b>↗</b></a>
     </section>
+<section id="activity" class="section shell">
+  <div class="section-label reveal">
+    <span>GITHUB / DEVELOPMENT ACTIVITY</span>
+    <span>ALWAYS BUILDING.</span>
+  </div>
+
+  <div class="section-heading reveal">
+    <h2>Code in <em>motion.</em></h2>
+    <p>My journey through code and collaboration.</p>
+  </div>
+
+  <div class="activity-dashboard reveal">
+    <div class="activity-info">
+      <span class="activity-status">
+        ● GITHUB ACTIVITY
+      </span>
+
+      <h3>Building every day.</h3>
+      <p id="activity-total">Loading contributions...</p>
+
+      <div id="activity-stats"></div>
+
+      <a href="https://github.com/heshanbandara"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="underlined-link">
+        Explore my GitHub ↗
+      </a>
+    </div>
+
+    <div class="activity-chart">
+      <canvas id="githubRadar"
+              role="img"
+              aria-label="GitHub contribution breakdown">
+      </canvas>
+    </div>
+  </div>
+
+  <p id="activity-updated" class="activity-updated"></p>
+</section>
     <section id="skills" class="toolkit section"><div class="shell">
       <div class="section-label reveal"><span>03 / THE TOOLKIT</span><span>DIFFERENT TOOLS. CONNECTED IDEAS.</span></div>
       <div class="toolkit-layout"><div class="toolkit-intro reveal"><h2>A little logic.<br>A little <em>magic.</em></h2><p>From an API endpoint to a mobile screen to a well-timed cut. These are the tools I’m building with.</p><span class="toolkit-hint">SELECT A DISCIPLINE TO EXPLORE ↘</span></div><div class="disciplines reveal">

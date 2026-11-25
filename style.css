@@ -81,3 +81,87 @@ h1 em{display:inline-block;background:linear-gradient(110deg,#ecffb3,#dafa68 55%
 @media(max-width:1100px){h1{font-size:clamp(45px,5.5vw,65px);letter-spacing:-3px}.hero-layout{gap:25px}.focus-links a{font-size:9px;padding:6px 9px}.hero-caption{font-size:9px}.approach-step{padding:22px}}
 @media(max-width:760px){.site-header{height:72px}.hero-layout{grid-template-columns:1fr;padding-top:30px;gap:32px}h1{font-size:clamp(42px,9.5vw,68px);letter-spacing:-2.6px}.intro{font-size:14px}.focus-links{gap:7px;margin-top:25px}.hero-caption{margin-top:17px}.visual-stage{border-radius:16px}.approach{padding-top:60px}.approach-intro{gap:13px}.approach-intro h2{font-size:34px}.approach-steps{grid-template-columns:1fr;margin-top:24px}.approach-step{padding:23px}.approach-step+article{border-left:0;border-top:1px solid #c5d7af20}.approach-step h3{margin-top:15px}.approach-step p{max-width:none}.project{padding:9px;border-radius:15px}.project-preview{border-radius:9px}.project-meta h3{font-size:25px}.marquee-track{font-size:21px}.contact:before,.contact:after{display:none}}
 @media(prefers-reduced-motion:reduce){.stage-halo{animation:none}.project:hover,.focus-links a:hover,.skill-chips span:hover,.filter-bar button:hover{transform:none}}
+
+/* GitHub Activity Dashboard */
+
+.activity-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  gap: 40px;
+  padding: 40px;
+  border: 1px solid #34382c;
+  border-radius: 24px;
+  background: linear-gradient(
+    135deg, #171914, #111210
+  );
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .4s ease,
+              border-color .4s ease;
+}
+
+.activity-dashboard:hover {
+  border-color: var(--lime);
+  box-shadow: 0 0 40px #d6f65b15;
+}
+
+.activity-status {
+  color: var(--lime);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.activity-info h3 {
+  font-size: 32px;
+  margin: 20px 0;
+}
+
+.activity-chart {
+  min-width: 0;
+  padding: 10px;
+}
+
+.activity-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #34382c;
+}
+
+.activity-stat strong {
+  color: var(--lime);
+  font-size: 22px;
+}
+
+#activity-stats {
+  margin: 25px 0;
+}
+
+.activity-updated {
+  font-size: 12px;
+  color: #92968a;
+  margin-top: 16px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .activity-dashboard {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .activity-info h3 {
+    font-size: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .activity-dashboard {
+    transition: none;
+  }
+}
+#activity .activity-dashboard { margin-top: 32px; }
+#activity { padding-top: 0; }
+.motion-paused .activity-dashboard { transition: none; }
